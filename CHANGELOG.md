@@ -1,7 +1,7 @@
 Changelog Facebook connect
 ==========================
 
-###version 1.2.1 - 24/07/2013
+###version 1.3.1 - 24/07/2013
 
 * Minor fixes
 * Minor improvements
