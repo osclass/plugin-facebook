@@ -102,6 +102,9 @@
                 $oscUser = $manager->findByEmail( self::$user_profile['email'] );
                 // exists on our DB, we merge both accounts
                 if( count($oscUser) > 0 ) {
+                    require_once osc_lib_path() . 'osclass/UserActions.php';
+                    $uActions = new UserActions( false );
+
                     $manager->dao->from( $this->getTableName() );
                     $manager->dao->set( 'fk_i_user_id', $oscUser['pk_i_id'] );
                     $manager->dao->set( 'i_facebook_uid', self::$user_profile['id'] );
