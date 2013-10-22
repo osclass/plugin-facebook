@@ -1,6 +1,11 @@
 Changelog Facebook connect
 ==========================
 
+###version 1.3.2 - 24/07/2013
+
+* Fixed merge existing users issue
+* Fixed CSRF warings
+
 ###version 1.3.1 - 24/07/2013
 
 * Minor fixes
