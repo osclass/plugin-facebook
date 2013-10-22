@@ -3,7 +3,7 @@
 Plugin Name: Facebook Connect
 Plugin URI: http://www.osclass.org/
 Description: Use Facebook to connect and log in your users accounts
-Version: 1.3.2
+Version: 1.4
 Author: OSClass
 Author URI: http://www.osclass.org/
 Short Name: facebook
@@ -65,6 +65,30 @@ Plugin update URI: facebook-connect
     function fbc_conf() {
         osc_admin_render_plugin( osc_plugin_path( dirname(__FILE__) ) . '/admin/conf.php' );
     }
+
+    // extend manage users
+    function fbc_extend_manage_users($row, $aRow) {
+        $user_id = $aRow['pk_i_id'];
+        $user_exist = false;
+        $manager = User::newInstance();
+        $manager->dao->select();
+        $manager->dao->from( DB_TABLE_PREFIX.'t_facebook_connect' );
+        $manager->dao->where( 'fk_i_user_id', $user_id );
+        $result = $manager->dao->get();
+        if($result != false) {
+            if($result->result()!=array()) {
+                $row['email'] = $row['email'] . ' - '. __('via facebook', 'facebook') ;
+            }
+        }
+        return $row;
+    }
+    osc_add_filter('users_processing_row', 'fbc_extend_manage_users');
+
+    // extend email subject
+    function fbc_extend_email_title($title) {
+        return $title . ' - '. __('via facebook', 'facebook') ;
+    }
+    osc_add_filter('email_user_registration_title', 'fbc_extend_email_title');
 
     // This is needed in order to be able to activate the plugin
     osc_register_plugin( osc_plugin_path( __FILE__ ), 'fbc_call_after_install' );

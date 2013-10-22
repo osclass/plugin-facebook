@@ -1,10 +1,12 @@
 Changelog Facebook connect
 ==========================
 
-###version 1.3.2 - 24/07/2013
+###version 1.4 - 22/10/2013
 
 * Fixed merge existing users issue
 * Fixed CSRF warings
+* Added flag to manage users, allows to identify the source of the user
+* Improved subject email, allowing to indentify the source of the user
 
 ###version 1.3.1 - 24/07/2013
 
