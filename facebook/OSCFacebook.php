@@ -56,8 +56,9 @@
 
             self::$user = $this->getUser();
 
-            self::$logoutUrl = self::$facebook->getLogoutUrl( array('next' => osc_render_file_url(osc_plugin_folder(__FILE__) . 'logout.php')));
-            self::$loginUrl  = self::$facebook->getLoginUrl( array('scope' => 'email'));
+            if( !osc_is_web_user_logged_in() ) {
+                self::$loginUrl  = self::$facebook->getLoginUrl( array('scope' => 'email'));
+            }
 
             if ( !self::$user ) {
                 return self::$facebook;
