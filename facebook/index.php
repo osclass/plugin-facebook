@@ -88,7 +88,20 @@ Plugin update URI: facebook-connect
     function fbc_extend_email_title($title) {
         return $title . ' - '. __('via facebook', 'facebook') ;
     }
-    osc_add_filter('email_user_registration_title', 'fbc_extend_email_title');
+    function fbc_extend_email($user) {
+        $manager = User::newInstance();
+        $manager->dao->select();
+        $manager->dao->from( DB_TABLE_PREFIX.'t_facebook_connect' );
+        $manager->dao->where( 'fk_i_user_id', $user['pk_i_id'] );
+        $result = $manager->dao->get();
+        if($result != false) {
+            if($result->result()!=array()) {
+                osc_add_filter('email_user_registration_title', 'fbc_extend_email_title');
+            }
+        }
+    }
+    osc_add_hook('hook_email_user_registration', 'fbc_extend_email', 4);
+    osc_add_hook('hook_email_admin_new_user', 'fbc_extend_email', 4);
 
     // This is needed in order to be able to activate the plugin
     osc_register_plugin( osc_plugin_path( __FILE__ ), 'fbc_call_after_install' );
