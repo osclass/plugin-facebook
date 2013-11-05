@@ -1,6 +1,10 @@
 Changelog Facebook connect
 ==========================
 
+###version 1.4.1 - 05/11/2013
+
+* Fixed issue with email subject
+
 ###version 1.4 - 23/10/2013
 
 * Added flag to manage users, allows to identify the source of the user
