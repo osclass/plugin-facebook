@@ -92,10 +92,37 @@
                     }
                 }
 
-                if( !isset(self::$user_profile['email']) ) {
-                    osc_add_flash_error_message( __('Some error occured trying to connect with Facebook.', 'facebook') );
-                    header( 'Location: ' . self::$logoutUrl );
+                if(is_null(self::$user_profile)) {
+                    if (isset($_SERVER['HTTP_COOKIE'])) {
+                        $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+                        foreach ($cookies as $cookie) {
+                            $parts = explode('=', $cookie);
+                            $name = trim($parts[0]);
+                            setcookie($name, '', time() - 1000);
+                            setcookie($name, '', time() - 1000, '/');
+                        }
+                    }
+
+                    osc_add_flash_error_message(__('Some error occured trying to connect with Facebook.', 'facebook'));
+                    header( 'Location: ' . osc_register_account_url_notify()  );
                     exit();
+                } else{
+                    if( !isset(self::$user_profile['email']) ) {
+
+                        if (isset($_SERVER['HTTP_COOKIE'])) {
+                            $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+                            foreach ($cookies as $cookie) {
+                                $parts = explode('=', $cookie);
+                                $name = trim($parts[0]);
+                                setcookie($name, '', time() - 1000);
+                                setcookie($name, '', time() - 1000, '/');
+                            }
+                        }
+
+                        osc_add_flash_error_message(__('Some error occured trying to connect with Facebook.', 'facebook'));
+                        header( 'Location: ' . osc_register_account_url_notify() );
+                        exit();
+                    }
                 }
 
                 $manager = User::newInstance();
