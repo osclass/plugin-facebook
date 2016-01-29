@@ -66,7 +66,7 @@
 
             try {
 
-                self::$user_profile = self::$facebook->api( '/me' );
+                self::$user_profile = self::$facebook->api( '/me?fields=id,name,email' );
 
                 $this->dao->select( $this->getFields() );
                 $this->dao->from( $this->getTableName() );
